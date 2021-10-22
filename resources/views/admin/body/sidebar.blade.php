@@ -26,54 +26,60 @@
   
       <li class="treeview">
         <a href="#">
-          <i data-feather="message-circle"></i>
-          <span>Application</span>
+          <i class="ti-menu-alt"></i>
+          <span>Category</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-right pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="chat.html"><i class="ti-more"></i>Chat</a></li>
-          <li><a href="calendar.html"><i class="ti-more"></i>Calendar</a></li>
+          <li><a href="{{route("all.category")}}"><i class="ti-more"></i>Categories</a></li>
+          <li><a href="{{route("all.subcategory")}}"><i class="ti-more"></i>Sub Category</a></li>
+          <li><a href="{{route("all.subsubcategory")}}"><i class="ti-more"></i>Sub Sub Category</a></li>
         </ul>
       </li> 
     
-      <li class="treeview">
-        <a href="#">
-          <i data-feather="mail"></i> <span>Mailbox</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-right pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="mailbox_inbox.html"><i class="ti-more"></i>Inbox</a></li>
-          <li><a href="mailbox_compose.html"><i class="ti-more"></i>Compose</a></li>
-          <li><a href="mailbox_read_mail.html"><i class="ti-more"></i>Read</a></li>
-        </ul>
+      <li>
+        <a href="{{route("all.brand")}}">
+          <i data-feather="mail"></i> <span>Brand</span></a>
+      </li>
+      <li>
+        <a href="{{route("manage-slider")}}">
+          <i data-feather="server"></i> <span>Slider</span></a>
       </li>
   
       <li class="treeview">
         <a href="#">
-          <i data-feather="file"></i>
-          <span>Pages</span>
+          <i data-feather="package"></i>
+          <span>Products</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-right pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="profile.html"><i class="ti-more"></i>Profile</a></li>
-          <li><a href="invoice.html"><i class="ti-more"></i>Invoice</a></li>
-          <li><a href="gallery.html"><i class="ti-more"></i>Gallery</a></li>
-          <li><a href="faq.html"><i class="ti-more"></i>FAQs</a></li>
-          <li><a href="timeline.html"><i class="ti-more"></i>Timeline</a></li>
+          <li><a href="{{route("manage-product")}}"><i class="ti-more"></i>Manage Product</a></li>
+          <li><a href="{{route("add.product")}}"><i class="ti-more"></i>Add Product</a></li>
+          <li><a href="{{route("stock.product")}}"><i class="ti-more"></i>Product Stock</a></li>
         </ul>
-      </li> 		  
-   
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="ti-settings"></i>
+          <span>Settings</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{route("setting.site")}}"><i class="ti-more"></i>Site Settings</a></li>
+          <li><a href="{{route("setting.seo")}}"><i class="ti-more"></i>SEO Settings</a></li>
+        </ul>
+      </li> 		   		  
       <li class="header nav-small-cap">User Interface</li>
     
       <li class="treeview">
         <a href="#">
-          <i data-feather="grid"></i>
+          <i data-feather="Slider"></i>
           <span>Components</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-right pull-right"></i>
