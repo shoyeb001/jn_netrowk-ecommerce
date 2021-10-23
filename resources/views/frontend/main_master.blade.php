@@ -6,10 +6,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="description" content="">
-<meta name="csrf-token" content="">
-
 <meta name="author" content="">
 <meta name="keywords" content="">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="robots" content="all">
 
 <!-- /// Google Analytics Code // -->
@@ -207,11 +206,11 @@ function productView(id){
         dataType:'json',
         success:function(data){
             // console.log(data)
-            $('#pname').text(data.product.product_name_en);
+            $('#pname').text(data.product.product_name);
             $('#price').text(data.product.selling_price);
             $('#pcode').text(data.product.product_code);
-            $('#pcategory').text(data.product.category.category_name_en);
-            $('#pbrand').text(data.product.brand.brand_name_en);
+            $('#pcategory').text(data.product.category.category_name);
+            $('#pbrand').text("unknown");
             $('#pimage').attr('src','/'+data.product.product_thambnail);
 
             $('#product_id').val(id);
@@ -247,6 +246,11 @@ function productView(id){
     $('select[name="color"]').empty();        
     $.each(data.color,function(key,value){
         $('select[name="color"]').append('<option value=" '+value+' ">'+value+' </option>')
+        if (data.size == "") {
+            $('#color').hide();
+        }else{
+            $('#color').show();
+        }
     }) // end color
 
      // Size
@@ -260,6 +264,10 @@ function productView(id){
         }
 
     }) // end size
+
+    if (data.product.brand.brand_name != null) {
+        $('#pbrand').text(data.product.brand.brand_name);
+    }
  
 
         }
@@ -274,6 +282,7 @@ function productView(id){
  // Start Add To Cart Product 
 
     function addToCart(){
+
         var product_name = $('#pname').text();
         var id = $('#product_id').val();
         var color = $('#color option:selected').text();
@@ -288,7 +297,9 @@ function productView(id){
             url: "/cart/data/store/"+id,
             success:function(data){
 
-                miniCart()
+                console.log(data);
+
+               miniCart()
                 $('#closeModel').click();
                 // console.log(data)
 
@@ -561,7 +572,7 @@ function addToWishList(product_id){
     var rows = ""
     $.each(response.carts, function(key,value){
         rows += `<tr>
-        <td class="col-md-2"><img src="/${value.options.image} " alt="imga" style="width:60px; height:60px;"></td>
+        <td class="col-md-2"><img src="/${value.options.image} " alt="imga" style="width:60px; height:60px;"></td> 
         
         <td class="col-md-2">
             <div class="product-name"><a href="#">${value.name}</a></div>
@@ -594,7 +605,8 @@ function addToWishList(product_id){
             }
         
 
-        <input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width:25px;" >  
+        <input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width:25px;" > 
+        <input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width:25px;" >   
 
          <button type="submit" class="btn btn-success btn-sm" id="${value.rowId}" onclick="cartIncrement(this.id)" >+</button>    
          

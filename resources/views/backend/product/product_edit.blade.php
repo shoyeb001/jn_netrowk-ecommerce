@@ -34,7 +34,7 @@
 	 <div class="form-group">
 	<h5>Brand Select <span class="text-danger">*</span></h5>
 	<div class="controls">
-		<select name="brand_id" class="form-control" required="" >
+		<select name="brand_id" class="form-control" >
 			<option value="" selected="" disabled="">Select Brand</option>
 			@foreach($brands as $brand)
  <option value="{{ $brand->id }}" {{ $brand->id == $products->brand_id ? 'selected': '' }} >{{ $brand->brand_name }}</option>	
@@ -99,7 +99,7 @@
 	 <div class="form-group">
 	<h5>SubSubCategory Select <span class="text-danger">*</span></h5>
 	<div class="controls">
-		<select name="subsubcategory_id" class="form-control" required="" >
+		<select name="subsubcategory_id" class="form-control" >
 			<option value="" selected="" disabled="">Select SubSubCategory</option>
 		 
 		 @foreach($subsubcategory as $subsub)
@@ -210,7 +210,7 @@
 	    <div class="form-group">
 			<h5>Product Color <span class="text-danger">*</span></h5>
 			<div class="controls">
-	 <input type="text" name="product_color" class="form-control" value="{{ $products->product_color }}" data-role="tagsinput" required="">
+	 <input type="text" name="product_color" class="form-control" value="{{ $products->product_color }}" data-role="tagsinput">
      @error('product_color') 
 	 <span class="text-danger">{{ $message }}</span>
 	 @enderror

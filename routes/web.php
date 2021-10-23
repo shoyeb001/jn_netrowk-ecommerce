@@ -9,8 +9,9 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\backend\SubCategoryController;
+use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\SiteSettingController;
-
+use App\Http\Controllers\Frontend\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,9 @@ use App\Http\Controllers\SiteSettingController;
 Route::get("/admin/login",function(){ return view('auth/admin_login');});
 
 Route::post("admin/auth",[AdminController::class,'AdminLogin'])->name("admin.login");
+
+Route::group(['middleware'=>['adminauth']],function(){       //instructor routes
+
 
 Route::get("/admin/dashboard",[AdminProfileController::class,'AdminDashboard'])->name('admin.dashboard');
 
@@ -145,7 +149,7 @@ Route::get("setting/seo",[SiteSettingController::class,'SeoSetting'])->name("set
 Route::post("setting/seo/update",[SiteSettingController::class,'UpdateSeoSetting'])->name("update.seo");
 
 
-
+}); //guard ends
 
 
 
@@ -153,8 +157,33 @@ Route::post("setting/seo/update",[SiteSettingController::class,'UpdateSeoSetting
 
 //frontend routes
 
-Route::get("/",function(){ return view('frontend.index');})->name('frontend.index');
+Route::get("/",[IndexController::class,"index"])->name('frontend.index');
 
 Route::get('/login',function(){return view('auth.login');})->name('auth.login');
 Route::get('/forgot-password',function(){return view('auth.forgot_password');})->name('auth.forgot_password');
+
+//product routes
+
+Route::get('/product/details/{id}/{slug}', [IndexController::class, 'ProductDetails']);
+
+//subcategory based data
+
+Route::get('/subcategory/product/{subcat_id}/{slug}', [IndexController::class, 'SubCatWiseProduct']);
+
+// Frontend Sub-SubCategory wise Data
+Route::get('/subsubcategory/product/{subsubcat_id}/{slug}', [IndexController::class, 'SubSubCatWiseProduct']);
+
+//product view modal 
+
+Route::get('/product/view/modal/{id}', [IndexController::class, 'ProductViewAjax']);
+
+Route::post('/cart/data/store/{id}', [CartController::class, 'AddToCart']); //add to cart
+
+Route::get('/product/mini/cart/', [CartController::class, 'AddMiniCart']); //mini cart view
+
+Route::get('/minicart/product-remove/{rowId}', [CartController::class, 'RemoveMiniCart']); //remove mini cart
+
+//mycart 
+
+
 

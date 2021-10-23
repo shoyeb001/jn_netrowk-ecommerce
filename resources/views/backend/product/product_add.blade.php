@@ -34,7 +34,7 @@
 	 <div class="form-group">
 	<h5>Brand Select <span class="text-danger">*</span></h5>
 	<div class="controls">
-		<select name="brand_id" class="form-control" required="" >
+		<select name="brand_id" class="form-control">
 			<option value="" selected="" disabled="">Select Brand</option>
 			@foreach($brands as $brand)
  <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>	
@@ -73,7 +73,7 @@
 				 <div class="form-group">
 	<h5>SubCategory Select <span class="text-danger">*</span></h5>
 	<div class="controls">
-		<select name="subcategory_id" class="form-control" required="" >
+		<select name="subcategory_id" class="form-control" required="">
 			<option value="" selected="" disabled="">Select SubCategory</option>
 			 
 		</select>
@@ -95,7 +95,7 @@
 	 <div class="form-group">
 	<h5>SubSubCategory Select <span class="text-danger">*</span></h5>
 	<div class="controls">
-		<select name="subsubcategory_id" class="form-control" required="" >
+		<select name="subsubcategory_id" class="form-control">
 			<option value="" selected="" disabled="">Select SubSubCategory</option>
 		 
 		</select>
@@ -182,7 +182,7 @@
 				 <div class="form-group">
 			<h5>Product Size<span class="text-danger">*</span></h5>
 			<div class="controls">
-	 <input type="text" name="product_size" class="form-control" value="Small,Midium,Large" data-role="tagsinput" required="">
+	 <input type="text" name="product_size" class="form-control" value="Small,Midium,Large" data-role="tagsinput">
      @error('product_size') 
 	 <span class="text-danger">{{ $message }}</span>
 	 @enderror
@@ -200,7 +200,7 @@
 	    <div class="form-group">
 			<h5>Product Color<span class="text-danger">*</span></h5>
 			<div class="controls">
-	 <input type="text" name="product_color" class="form-control" value="red,Black,Amet" data-role="tagsinput" required="">
+	 <input type="text" name="product_color" class="form-control" value="red,Black,Amet" data-role="tagsinput">
      @error('product_color') 
 	 <span class="text-danger">{{ $message }}</span>
 	 @enderror

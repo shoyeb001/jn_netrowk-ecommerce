@@ -74,7 +74,11 @@
           <li><a href="{{route("setting.site")}}"><i class="ti-more"></i>Site Settings</a></li>
           <li><a href="{{route("setting.seo")}}"><i class="ti-more"></i>SEO Settings</a></li>
         </ul>
-      </li> 		   		  
+      </li> 	
+      <li>
+        <a href="{{route("admin.profile.view")}}">
+          <i data-feather="profile"></i> <span>Profile</span></a>
+      </li>	   		  
       <li class="header nav-small-cap">User Interface</li>
     
       <li class="treeview">
