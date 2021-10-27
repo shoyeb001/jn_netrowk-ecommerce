@@ -10,6 +10,7 @@ use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use App\Models\Brand;
 use App\Models\MultiImg;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -105,6 +106,88 @@ class IndexController extends Controller
 			'size' => $product_size,
 
 		));
+	}
+
+	public function TagWiseProduct($tag){
+		$products = Product::where('status',1)->where('product_tags',$tag)->orderBy('id','DESC')->paginate(3);
+		$categories = Category::orderBy('category_name','ASC')->get();
+		return view('frontend.tags.tags_view',compact('products','categories'));
+
+	}
+
+	public function GetUserProfile(){
+		$id = session("USER_ID");
+    	$user = User::find($id);
+    	return view('frontend.profile.user_profile',compact('user'));
+	}
+
+	public function UserProfileStore(Request $request){
+		$data = User::find(session("USER_ID"));
+		$data->name = $request->name;
+		$data->email = $request->email;
+		$data->phone = $request->phone;
+ 
+
+		if ($request->file('profile_photo_path')) {
+			$file = $request->file('profile_photo_path');
+			@unlink(public_path('upload/user_images/'.$data->profile_photo_path));
+			$filename = date('YmdHi').$file->getClientOriginalName();
+			$file->move(public_path('upload/user_images'),$filename);
+			$data['profile_photo_path'] = $filename;
+		}
+		$data->save();
+
+		$notification = array(
+			'message' => 'User Profile Updated Successfully',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->route('dashboard')->with($notification);
+	}
+
+	public function ChangePassword(){
+		$id = session("USER_ID");
+    	$user = User::find($id);
+    	return view('frontend.profile.change_password',compact('user'));
+	}
+
+	public function UpdatePassword(Request $request){
+		 $request->validate([
+			'oldpassword' => 'required',
+			'password' => 'required|confirmed',
+		]);
+		$id = session("USER_ID");
+		$user = User::find($id);
+
+		$old_password = $request->input("old_password");
+		$new_password = $request->input("new_password");
+		$confirm_password = $request->input("confirm_password");
+
+		if ($confirm_password != $new_password) {
+			$notification = array(
+				'message' => 'new password and confirm password are not same',
+				'alert-type' => 'success'
+			);
+		}else {
+			if ($old_password != $user->password) {
+				$notification = array(
+					'message'=>'please enter correct password',
+					'alert-type'=>'danger'
+				);
+			}else {
+				$data = array(
+					"password"=>$new_password
+				);
+
+				User::where("id",$id)->update($data);
+				$notification = array(
+					'message' => 'Password updated successfully',
+					'alert-type' => 'success'
+				);
+			}
+		}
+
+		return redirect()->route('change.password')->with($notification);
 	}
 
 }

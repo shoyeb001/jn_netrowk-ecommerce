@@ -9,20 +9,20 @@
             <li><a href="#"><i class="icon fa fa-user"></i>
  My Account
             </a></li>
-            <li><a href=""><i class="icon fa fa-heart"></i>Wishlist</a></li>
-            <li><a href=""><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
-            <li><a href=""><i class="icon fa fa-check"></i>Checkout</a></li>
+            <li><a href="{{ route('wishlist') }}"><i class="icon fa fa-heart"></i>Wishlist</a></li>
+            <li><a href="{{route("mycart")}}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
+            <li><a href="{{route("checkout")}}"><i class="icon fa fa-check"></i>Checkout</a></li>
 
  <li><a href="" type="button" data-toggle="modal" data-target="#ordertraking"><i class="icon fa fa-check"></i>Order Traking</a></li>
 
             <li>
     
 
-   @auth
-   <a href=""><i class="icon fa fa-user"></i>User Profile</a>
+   @if((session("USER_ID"))==NULL)
+   <a href="{{route("auth.login")}}"><i class="icon fa fa-lock"></i>Login/Register</a>
    @else
-   <a href=""><i class="icon fa fa-lock"></i>Login/Register</a>
-   @endauth
+   <a href=""><i clas s="icon fa fa-user"></i>User Profile</a>
+   @endif
               
 
             </li>
@@ -30,18 +30,7 @@
         </div>
         <!-- /.cnt-account -->
         
-        <div class="cnt-block">
-          <ul class="list-unstyled list-inline">
-            <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">USD </span><b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">USD</a></li>
-                <li><a href="#">INR</a></li>
-                <li><a href="#">GBP</a></li>
-              </ul>
-            </li>
-          </ul>
-          <!-- /.list-unstyled --> 
-        </div>
+        
         <!-- /.cnt-cart -->
         <div class="clearfix"></div>
       </div>
@@ -123,7 +112,7 @@
                   <div class="pull-right"> <span class="text">Sub Total :</span>
                     <span class='price'  id="cartSubTotal">  </span> </div>
                   <div class="clearfix"></div>
-                  <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
+                  <a href="{{route("checkout")}}" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
                 <!-- /.cart-total--> 
                 
               </li>
@@ -156,7 +145,7 @@
           <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
             <div class="nav-outer">
               <ul class="nav navbar-nav">
-  <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+  <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}">
  Home 
   </a> </li>
 

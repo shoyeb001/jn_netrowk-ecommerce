@@ -1,7 +1,7 @@
 @extends('frontend.main_master')
 @section('content')
 @section('title')
-Sub - Subcategory Product 
+Tag Wise Product 
 @endsection
 
 
@@ -13,18 +13,7 @@ Sub - Subcategory Product
     <div class="breadcrumb-inner">
       <ul class="list-inline list-unstyled">
         <li><a href="#">Home</a></li>
-         @foreach($breadsubsubcat as $item)
-        <li class='active'>{{ $item->category->category_name }}</li>
-        @endforeach
-
-        @foreach($breadsubsubcat as $item)
-        <li class='active'>{{ $item->subcategory->subcategory_name}}</li>
-        @endforeach
-
-         @foreach($breadsubsubcat as $item)
-        <li class='active'>{{ $item->subsubcategory_name }}</li>
-        @endforeach
-
+        <li class='active'>Handbags</li>
       </ul>
     </div>
     <!-- /.breadcrumb-inner --> 
@@ -59,7 +48,7 @@ Sub - Subcategory Product
  @foreach($categories as $category)
 	<div class="accordion-group">
 	<div class="accordion-heading"> <a href="#collapse{{ $category->id }}" data-toggle="collapse" class="accordion-toggle collapsed"> 
-		 {{ $category->category_name}} </a> </div>
+		 {{ $category->category_name }}  </a> </div>
 	<!-- /.accordion-heading -->
 	<div class="accordion-body collapse" id="collapse{{ $category->id }}" style="height: 0px;">
 	  <div class="accordion-inner">
@@ -70,8 +59,8 @@ Sub - Subcategory Product
 
    @foreach($subcategories as $subcategory)
 	    <ul>
-	      <li><a href="{{ url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug ) }}">
-	      {{ $subcategory->subcategory_name }} </a></li>
+	      <li><a href="#">
+	       {{ $subcategory->subcategory_name }} </a></li>
 	      
 	    </ul>
 	@endforeach 
@@ -125,13 +114,13 @@ Sub - Subcategory Product
                 <h4 class="widget-title">Manufactures</h4>
               </div>
               <div class="sidebar-widget-body">
-                <ul class="list"> 
-                    @php 
-                      $brands = App\Models\Brand::latest()->get();
-                    @endphp
-                    @foreach ($brands as $item)
-                    <li><a href="#">{{$item->brand_name}}</a></li>
-                    @endforeach
+                <ul class="list">
+                  <li><a href="#">Forever 18</a></li>
+                  <li><a href="#">Nike</a></li>
+                  <li><a href="#">Dolce & Gabbana</a></li>
+                  <li><a href="#">Alluare</a></li>
+                  <li><a href="#">Chanel</a></li>
+                  <li><a href="#">Other Brand</a></li>
                 </ul>
                 <!--<a href="#" class="lnk btn btn-primary">Show Now</a>--> 
               </div>
@@ -140,7 +129,22 @@ Sub - Subcategory Product
             <!-- /.sidebar-widget --> 
             <!-- ============================================== MANUFACTURES: END ============================================== --> 
             <!-- ============================================== COLOR============================================== -->
-            
+            <div class="sidebar-widget wow fadeInUp">
+              <div class="widget-header">
+                <h4 class="widget-title">Colors</h4>
+              </div>
+              <div class="sidebar-widget-body">
+                <ul class="list">
+                  <li><a href="#">Red</a></li>
+                  <li><a href="#">Blue</a></li>
+                  <li><a href="#">Yellow</a></li>
+                  <li><a href="#">Pink</a></li>
+                  <li><a href="#">Brown</a></li>
+                  <li><a href="#">Teal</a></li>
+                </ul>
+              </div>
+              <!-- /.sidebar-widget-body --> 
+            </div>
             <!-- /.sidebar-widget --> 
             <!-- ============================================== COLOR: END ============================================== --> 
             <!-- == ======= COMPARE==== ==== -->
@@ -202,25 +206,7 @@ Sub - Subcategory Product
             <!-- /.container-fluid --> 
           </div>
         </div>
-   
-
-  @foreach($breadsubsubcat as $item)
-       
- <span class="badge badge-danger" style="background: #808080">{{ $item->category->category_name }} </span>
-
-        @endforeach
-
-        @foreach($breadsubsubcat as $item)
-      
- <span class="badge badge-danger" style="background: #808080">{{ $item->subcategory->subcategory_name }} </span>
-        @endforeach
-
-         @foreach($breadsubsubcat as $item)
         
-  <span class="badge badge-danger" style="background: #FF0000">{{ $item->subsubcategory_name }} </span>
-        @endforeach
-
-
      
         <div class="clearfix filters-container m-t-10">
           <div class="row">
@@ -324,8 +310,8 @@ Sub - Subcategory Product
         <!-- /.product-image -->
         
         <div class="product-info text-left">
-          <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en ) }}">
-          	 {{ $product->product_name_en }} </a></h3>
+          <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
+          	 {{ $product->product_name }}</a></h3>
           <div class="rating rateit-small"></div>
           <div class="description"></div>
 
@@ -348,13 +334,21 @@ Sub - Subcategory Product
         <div class="cart clearfix animate-effect">
           <div class="action">
             <ul class="list-unstyled">
-              <li class="add-cart-button btn-group">
-                <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
-                <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-              </li>
-              <button class="btn btn-primary icon" type="button" title="Wishlist" id="{{ $product->id }}" onclick="addToWishList(this.id)"> <i class="fa fa-heart"></i> </button>
-              <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
-            </ul>
+                <li class="add-cart-button btn-group">
+  
+  
+             <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
+          
+          <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+        </li>
+  
+        
+  
+          <button class="btn btn-primary icon" type="button" title="Wishlist" id="{{ $product->id }}" onclick="addToWishList(this.id)"> <i class="fa fa-heart"></i> </button>
+  
+  
+                <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+              </ul>
           </div>
           <!-- /.action --> 
         </div>
@@ -414,8 +408,8 @@ Sub - Subcategory Product
         <!-- /.col -->
         <div class="col col-sm-8 col-lg-8">
           <div class="product-info">
-            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en ) }}">
-            {{ $product->product_name_en }} </a></h3>
+            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}">
+            	 {{ $product->product_name }}</a></h3>
             <div class="rating rateit-small"></div>
 
 
@@ -427,12 +421,13 @@ Sub - Subcategory Product
             
             <!-- /.product-price -->
             <div class="description m-t-10">
-             {{ $product->short_descp }} </div>
+            	{{ $product->short_descp}}</div>
             <div class="cart clearfix animate-effect">
               <div class="action">
                 <ul class="list-unstyled">
                   <li class="add-cart-button btn-group">
-                    <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>                    <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                    <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                    <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                   </li>
                   <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
                   <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
@@ -560,7 +555,21 @@ Sub - Subcategory Product
 
 
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

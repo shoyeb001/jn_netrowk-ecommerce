@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Carbon\Carbon; 
 use Gloudemans\Shoppingcart\Facades\Cart;
-
+use App\Models\Wishlist;
 
 class CartController extends Controller
 {
@@ -66,4 +67,47 @@ class CartController extends Controller
         Cart::remove($rowId);
     	return response()->json(['success' => 'Product Remove from Cart']);
     }
+    
+    public function CreateCheckout(){
+        if (Cart::total() > 0) {
+
+            $carts = Cart::content();
+            $cartQty = Cart::count();
+            $cartTotal = Cart::total();
+            return view('frontend.checkout.checkout_view', compact('carts', 'cartQty', 'cartTotal'));
+        } else {
+
+            $notification = array(
+                'message' => 'Shopping At list One Product',
+                'alert-type' => 'error'
+            );
+
+            return redirect()->to('/')->with($notification);
+        }
+    }
+
+    public function AddToWishlist(Request $request, $product_id)
+    {
+
+        if ($request->session()->has("USER_ID")) {
+
+            $exists = Wishlist::where('user_id', session("USER_ID"))->where('product_id', $product_id)->first();
+
+            if (!$exists) {
+                Wishlist::insert([
+                    'user_id' => session("USER_ID"),
+                    'product_id' => $product_id,
+                    'created_at' => Carbon::now(),
+                ]);
+                return response()->json(['success' => 'Successfully Added On Your Wishlist']);
+            } else {
+
+                return response()->json(['error' => 'This Product has Already on Your Wishlist']);
+            }
+        } else {
+
+            return response()->json(['error' => 'At First Login Your Account']);
+        }
+    } // end method 
+
 }

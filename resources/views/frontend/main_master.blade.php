@@ -481,9 +481,9 @@ function addToWishList(product_id){
                     rows += `<tr>
                     <td class="col-md-2"><img src="/${value.product.product_thambnail} " alt="imga"></td>
                     <td class="col-md-7">
-                        <div class="product-name"><a href="#">${value.product.product_name_en}</a></div>
+                        <div class="product-name"><a href="#">${value.product.product_name}</a></div>
                          
-                        <div class="price">
+                        <div class="price"> RS  
                         ${value.product.discount_price == null
                             ? `${value.product.selling_price}`
                             :
@@ -584,7 +584,7 @@ function addToWishList(product_id){
 
 
           <td class="col-md-2">
-            <strong>${value.options.color} </strong> 
+          ${value.options.color == null ? '<span>----<span>':`<strong> ${value.options.color} </strong>`}
             </td>
 
          <td class="col-md-2">
@@ -606,7 +606,6 @@ function addToWishList(product_id){
         
 
         <input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width:25px;" > 
-        <input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width:25px;" >   
 
          <button type="submit" class="btn btn-success btn-sm" id="${value.rowId}" onclick="cartIncrement(this.id)" >+</button>    
          
