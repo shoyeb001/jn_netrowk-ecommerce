@@ -21,7 +21,7 @@
    @if((session("USER_ID"))==NULL)
    <a href="{{route("auth.login")}}"><i class="icon fa fa-lock"></i>Login/Register</a>
    @else
-   <a href=""><i clas s="icon fa fa-user"></i>User Profile</a>
+   <a href="{{route("user.profile")}}"><i clas s="icon fa fa-user"></i>User Profile</a>
    @endif
               
 
@@ -60,7 +60,7 @@
           <!-- /.contact-row --> 
           <!-- ============================================================= SEARCH AREA ============================================================= -->
           <div class="search-area">
-            <form method="post" action="">
+            <form method="post" action="{{route("product.search")}}">
               @csrf
               <div class="control-group">
                 <ul class="categories-filter animate-dropdown">

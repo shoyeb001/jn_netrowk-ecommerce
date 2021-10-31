@@ -6,12 +6,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\ShopPageController;
+use App\Http\Controllers\User\AllUserController;
 use  App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
@@ -156,6 +159,26 @@ Route::group(['middleware' => ['adminauth']], function () {       //admin routes
     Route::get("/setting/seo", [SiteSettingController::class, 'SeoSetting'])->name("setting.seo");
 
     Route::post("/setting/seo/update", [SiteSettingController::class, 'UpdateSeoSetting'])->name("update.seo");
+
+    //admin orders route
+
+    Route::get("/orders/pending/orders",[OrderController::class,'PendingOrder'])->name("pending.order");
+
+    Route::get('orders/pending/orders/details/{id}',[OrderController::class,'PendingOrderDetails'])->name('pending.order.details');
+
+    Route::get('orders/pending/confirm/{order_id}', [OrderController::class, 'PendingToConfirm'])->name('pending.confirm');
+
+    Route::get('/orders/processing/confirm/{order_id}',[OrderController::class,'ConfirmToProcessing'])->name("confirm.processing");
+
+    Route::get('/order/processing/picked/{order_id}',[OrderController::class,'ProcessingToPicked'])->name("processing.picked");
+
+    Route::get('/order/processing/shipped/{order_id}',[OrderController::class,'PickedToShipped'])->name('picked.shipped');
+
+    Route::get('/order/shipped/delivered/{order_id}',[OrderController::class,'ShippedToDelivered'])->name("shipped.delivered");
+
+
+
+    
 }); //guard ends
 
 
@@ -253,6 +276,20 @@ Route::group(['middleware' => ['userauth']], function () {
 
     Route::post("/user/password/update",[IndexController::class,"UpdatePassword"])->name("user.password.update");
 
+   Route::get("/user/myorder",[AllUserController::class,"MyOrder"])->name("user.myorder");
+
+   Route::get("/user/order_details/{id}",[AllUserController::class,"OrderDetails"])->name("user.order.details");
+
+   Route::get("/user/invoice_download/{id}",[AllUserController::class,"InvoiceDownload"]);
+
 });
+
+//shop page
+
+Route::get("/shop",[ShopPageController::class,"ShopPage"])->name("shoppage");
+
+//search page
+
+Route::post("/search",[IndexController::class,"SearchProduct"])->name("product.search");
 
 

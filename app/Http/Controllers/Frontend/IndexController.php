@@ -190,4 +190,14 @@ class IndexController extends Controller
 		return redirect()->route('change.password')->with($notification);
 	}
 
+	public function SearchProduct(Request $request){
+		$request->validate(["search" => "required"]);
+
+		$item = $request->search;
+		// echo "$item";
+        $categories = Category::orderBy('category_name','ASC')->get();
+		$products = Product::where('product_name','LIKE',"%$item%")->get();
+		return view('frontend.product.search',compact('products','categories'));
+	}
+
 }
