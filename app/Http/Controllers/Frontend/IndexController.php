@@ -61,7 +61,25 @@ class IndexController extends Controller
     }
 
     public function SubCatWiseProduct(Request $request, $subcat_id, $slug){
-        $products = Product::where('status',1)->where('subcategory_id',$subcat_id)->orderBy('id','DESC')->paginate(3);
+		 
+        $sort = "";
+
+        if ($request->get('sort')!=null) {
+            $sort = $request->get('sort');
+        }
+
+        $products = Product::where('status',1)->where('subcategory_id',$subcat_id);
+		if ($sort=="price_lowest") {
+            $products = $products->orderBy("selling_price","ASC");
+        }
+        if ($sort=="price_higest") {
+            $products = $products->orderBy("selling_price","DESC");
+        }
+        if ($sort=="product_name_asc") {
+            $products = $products->orderBy("product_name","ASC");
+        }
+
+		$products = $products->paginate(9);
 		$categories = Category::orderBy('category_name','ASC')->get();
 
 		$breadsubcat = SubCategory::with(['category'])->where('id',$subcat_id)->get();
@@ -81,8 +99,25 @@ class IndexController extends Controller
     }
 
       // Sub-Subcategory wise data
-	public function SubSubCatWiseProduct($subsubcat_id,$slug){
-		$products = Product::where('status',1)->where('subsubcategory_id',$subsubcat_id)->orderBy('id','DESC')->paginate(6);
+	public function SubSubCatWiseProduct(Request $request,$subsubcat_id,$slug){
+				 
+        $sort = "";
+
+        if ($request->get('sort')!=null) {
+            $sort = $request->get('sort');
+        }
+
+		$products = Product::where('status',1)->where('subsubcategory_id',$subsubcat_id);
+		if ($sort=="price_lowest") {
+            $products = $products->orderBy("selling_price","ASC");
+        }
+        if ($sort=="price_higest") {
+            $products = $products->orderBy("selling_price","DESC");
+        }
+        if ($sort=="product_name_asc") {
+            $products = $products->orderBy("product_name","ASC");
+        }
+		$products = $products->paginate(9);
 		$categories = Category::orderBy('category_name','ASC')->get();
 
 		$breadsubsubcat = SubSubCategory::with(['category','subcategory'])->where('id',$subsubcat_id)->get();
@@ -153,8 +188,9 @@ class IndexController extends Controller
 
 	public function UpdatePassword(Request $request){
 		 $request->validate([
-			'oldpassword' => 'required',
-			'password' => 'required|confirmed',
+			'old_password' => 'required',
+			'new_password' => 'required',
+			'confirm_password'=>'required'
 		]);
 		$id = session("USER_ID");
 		$user = User::find($id);
@@ -172,7 +208,7 @@ class IndexController extends Controller
 			if ($old_password != $user->password) {
 				$notification = array(
 					'message'=>'please enter correct password',
-					'alert-type'=>'danger'
+					'alert-type'=>'error'
 				);
 			}else {
 				$data = array(
@@ -199,5 +235,18 @@ class IndexController extends Controller
 		$products = Product::where('product_name','LIKE',"%$item%")->get();
 		return view('frontend.product.search',compact('products','categories'));
 	}
+
+	public function ProductSearch(Request $request){
+		
+		$request->validate(["search" => "required"]);
+
+		$item = $request->search;		 
+        
+		$products = Product::where('product_name','LIKE',"%$item%")->select('product_name','product_thambnail','selling_price','id','product_slug')->limit(5)->get();
+		return view('frontend.product.search_product',compact('products'));
+
+	}
+
+
 
 }

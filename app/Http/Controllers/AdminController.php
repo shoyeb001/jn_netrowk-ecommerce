@@ -20,9 +20,18 @@ class AdminController extends Controller
         $result = Admin::where("email",$email)->where("password",$password)->get();
         if (isset($result[0])) {
             $request->session()->put("ADMIN_ID", $result[0]->id);
+            if ($request->input("remember")!=NULL) {
+                setcookie('admin_email',$email,time()+60*60*24*30);
+                setcookie('admin_password',$password,time()+60*60*24*30);
+            }
             return redirect(route("admin.dashboard"));
         } else {
             return redirect()->back();
         }
+    }
+
+    public function logout(Request $request){
+        $request->session()->forget("ADMIN_ID");
+        return redirect(url("/"));
     }
 }

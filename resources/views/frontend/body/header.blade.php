@@ -60,21 +60,14 @@
           <!-- /.contact-row --> 
           <!-- ============================================================= SEARCH AREA ============================================================= -->
           <div class="search-area">
-            <form method="post" action="{{route("product.search")}}">
+            <form method="POST" action="{{route("product.search")}}">
               @csrf
               <div class="control-group">
                 <ul class="categories-filter animate-dropdown">
-                  <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories <b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" >
-                      <li class="menu-header">Computer</li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Clothing</a></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Electronics</a></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Shoes</a></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Watches</a></li>
-                    </ul>
+                  <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Search</a>
                   </li>
                 </ul>
-     <input class="search-field" onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" placeholder="Search here..." />
+     <input class="search-field" autocomplete="off" onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" placeholder="Search here..." />
                 <button class="search-button" type="submit"></button> </div>
             </form>
             <div id="searchProducts"></div>
@@ -207,13 +200,8 @@
   @endforeach <!-- // End Category Foreach -->
 
 
-     <li> <a href="">Shop</a> </li>
+     <li> <a href="{{route("shoppage")}}">Shop</a> </li>
                
-                <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
-
- <li class="dropdown  navbar-right special-menu"> <a href="">Blog</a> </li>
-
-
               </ul>
               <!-- /.navbar-nav -->
               <div class="clearfix"></div>
@@ -245,7 +233,7 @@
       </div>
       <div class="modal-body">
          
-        <form method="post" action="">
+        <form method="POST" action="{{ route('order.tracking') }}">
           @csrf
          <div class="modal-body">
           <label>Invoice Code</label>

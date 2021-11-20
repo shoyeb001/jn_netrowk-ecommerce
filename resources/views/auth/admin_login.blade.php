@@ -31,6 +31,15 @@
 		<p class="text-white-50">Sign in to start your session</p>							
 	</div>
 	<div class="p-30 rounded30 box-shadowed b-2 b-dashed">
+		@php 
+		 if (isset($_COOKIE['admin_email']) && isset($_COOKIE['admin_password'])) {
+			 $email = $_COOKIE['admin_email'];
+			 $password = $_COOKIE['admin_password'];
+		 }else {
+			 $email = "";
+			 $password="";
+		 }
+		@endphp
 
  <form method="POST" action="{{route("admin.login")}}">
             @csrf 
@@ -40,7 +49,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text bg-transparent text-white"><i class="ti-user"></i></span>
 					</div>
- <input type="email" id="email" name="email" class="form-control pl-15 bg-transparent text-white plc-white" placeholder="Email"><br>
+ <input type="email" id="email" name="email" value="{{$email}}" class="form-control pl-15 bg-transparent text-white plc-white" ><br>
 
 				</div>
 				@error('email')
@@ -52,7 +61,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text  bg-transparent text-white"><i class="ti-lock"></i></span>
 					</div>
- <input type="password" id="password" name="password" class="form-control pl-15 bg-transparent text-white plc-white" placeholder="Password">
+ <input type="password" id="password" name="password" value="{{$password}}" class="form-control pl-15 bg-transparent text-white plc-white" placeholder="Password">
 			</div>
 @error('password')
 <p style="color: red">{{$message}}</p>
@@ -61,7 +70,7 @@
 			  <div class="row">
 				<div class="col-6">
 				  <div class="checkbox text-white">
-					<input type="checkbox" id="basic_checkbox_1" >
+					<input type="checkbox" name="remember" id="basic_checkbox_1" >
 					<label for="basic_checkbox_1">Remember Me</label>
 				  </div>
 				</div>

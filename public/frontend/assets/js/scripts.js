@@ -332,7 +332,7 @@ jQuery(function () {
 /*===================================================================================*/
 jQuery("[data-toggle='tooltip']").tooltip(); 
 
-    const site_url = "http://127.0.0.1:8000/";
+    const site_url = "http://localhost:8000/";
 
     $("body").on("keyup", "#search", function(){
 
@@ -364,3 +364,9 @@ jQuery("[data-toggle='tooltip']").tooltip();
 
 
 })
+
+function SortBy() {
+   var sort_by =  $("#sort_by").val();
+   $("#sort").val(sort_by);
+   $("#sort_form").submit();
+}

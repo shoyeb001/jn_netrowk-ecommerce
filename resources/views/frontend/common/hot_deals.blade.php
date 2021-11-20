@@ -53,9 +53,9 @@ $hot_deals = App\Models\Product::where('hot_deals',1)->where('discount_price','!
     <div class="rating rateit-small"></div>
 
      @if ($product->discount_price == NULL)
- <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+ <div class="product-price"> <span class="price"> INR {{ $product->selling_price }} </span>  </div>
      @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">${{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR {{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
      @endif
 
    

@@ -51,7 +51,7 @@
                 </td>
 
                 <td class="col-md-3">
-                  <label for=""> ${{ $order->amount }}</label>
+                  <label for=""> INR {{ $order->amount }}</label>
                 </td>
 
 

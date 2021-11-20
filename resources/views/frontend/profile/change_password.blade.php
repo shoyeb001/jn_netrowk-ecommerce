@@ -29,18 +29,18 @@ $user = DB::table('users')->where('id',session("USER_ID"))->first();
 
          <div class="form-group">
             <label class="info-title" for="exampleInputEmail1">Current Password <span> </span></label>
-            <input type="password" id="old_password" name="oldpassword" class="form-control" required>
+            <input type="password" id="old_password" name="old_password" class="form-control" required>
         </div>
 
         <div class="form-group">
             <label class="info-title" for="exampleInputEmail1">New Password <span> </span></label>
-            <input type="password" id="password" name="password" class="form-control" required>
+            <input type="password" id="password" name="new_password" class="form-control" required>
         </div>
 
 
         <div class="form-group">
             <label class="info-title" for="exampleInputEmail1">Confirm Password <span> </span></label>
-            <input type="password" id="confirm password" name="password_confirmation" class="form-control" required>
+            <input type="password" id="confirm password" name="confirm_password" class="form-control" required>
         </div>
 
          

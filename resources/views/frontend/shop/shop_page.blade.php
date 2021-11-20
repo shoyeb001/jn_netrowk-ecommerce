@@ -44,40 +44,38 @@ Shop Page
             <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
             <div class="sidebar-widget wow fadeInUp">
               <h3 class="section-title">shop by</h3>
-
-
-
-
               <div class="widget-header">
                 <h4 class="widget-title">Category</h4>
               </div>
               <div class="sidebar-widget-body">
                 <div class="accordion">
 
-                  @if(!empty($_GET['category']))
-                  @php
-                  $filterCat = explode(',',$_GET['category']);
-                  @endphp
-                  @endif
-
-
 
  @foreach($categories as $category)
 	<div class="accordion-group">
-	<div class="accordion-heading">   
-
- <label class="form-check-label">
-  <input type="checkbox" class="form-check-input" name="category[]" value="{{ $category->category_slug }}" @if(!empty($filterCat) && in_array($category->category_slug,$filterCat)) checked @endif  onchange="this.form.submit()">
-
-  {{ $category->category_name }}
-   
- </label>
-
-
-  </div>
+	<div class="accordion-heading"> <a href="#collapse{{ $category->id }}" data-toggle="collapse" class="accordion-toggle collapsed"> 
+	 {{ $category->category_name }} </a> </div>
 	<!-- /.accordion-heading -->
- 
-	 
+	<div class="accordion-body collapse" id="collapse{{ $category->id }}" style="height: 0px;">
+	  <div class="accordion-inner">
+	   
+ @php
+  $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
+  @endphp 
+
+   @foreach($subcategories as $subcategory)
+	    <ul>
+	      <li><a href="{{ url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug ) }}">
+	      {{ $subcategory->subcategory_name }}</a></li>
+	      
+	    </ul>
+	@endforeach 
+
+
+	  </div>
+	  <!-- /.accordion-inner --> 
+	</div>
+	<!-- /.accordion-body --> 
 	</div>
 	<!-- /.accordion-group -->
     @endforeach              
@@ -96,67 +94,7 @@ Shop Page
                 <!-- /.accordion --> 
               </div>
               <!-- /.sidebar-widget-body --> 
-           
-            <!-- /.sidebar-widget --> 
-
-
-
-
-<!--  /////////// This is for Brand Filder /////////////// -->
-
-
-
- <div class="widget-header">
-                <h4 class="widget-title">Brand Filter</h4>
-              </div>
-              <div class="sidebar-widget-body">
-                <div class="accordion">
-
-                  @if(!empty($_GET['brand']))
-                  @php
-                  $filterBrand = explode(',',$_GET['brand']);
-                  @endphp
-                  @endif
-
-
-
- @foreach($brands as $brand)
-  <div class="accordion-group">
-  <div class="accordion-heading">   
-
- <label class="form-check-label">
-  <input type="checkbox" class="form-check-input" name="brand[]" value="{{ $brand->brand_slug }}" @if(!empty($filterBrand) && in_array($brand->brand_slug,$filterBrand)) checked @endif onchange="this.form.submit()">
-
-{{ $brand->brand_name }} 
-
- </label>
-
-
-  </div>
-  <!-- /.accordion-heading -->
- 
-   
-  </div>
-  <!-- /.accordion-group -->
-    @endforeach              
-                
- 
-
-
-                  
-                </div>
-                <!-- /.accordion --> 
-              </div>
-              <!-- /.sidebar-widget-body --> 
             </div>
-            <!-- /.sidebar-widget --> 
-
-
-
-
-
-
- 
 
 
 
@@ -294,18 +232,18 @@ Shop Page
               <!-- /.filter-tabs --> 
             </div>
             <!-- /.col -->
+           
             <div class="col col-sm-12 col-md-6">
               <div class="col col-sm-3 col-md-6 no-padding">
                 <div class="lbl-cnt"> <span class="lbl">Sort by</span>
                   <div class="fld inline">
                     <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
-                      <button data-toggle="dropdown" type="button" class="btn dropdown-toggle"> Position <span class="caret"></span> </button>
-                      <ul role="menu" class="dropdown-menu">
-                        <li role="presentation"><a href="#">position</a></li>
-                        <li role="presentation"><a href="#">Price:Lowest first</a></li>
-                        <li role="presentation"><a href="#">Price:HIghest first</a></li>
-                        <li role="presentation"><a href="#">Product Name:A to Z</a></li>
-                      </ul>
+                      <select class="fld inline" onchange="SortBy()" id="sort_by">
+                        <option value="default">Default</option>
+                        <option value="price_lowest">Price:Lowest</option>
+                        <option value="price_higest">Price:Higest</option>
+                        <option value="product_name_asc">Product Name: A to Z</option>
+                      </select>
                     </div>
                   </div>
                   <!-- /.fld --> 
@@ -386,16 +324,15 @@ Shop Page
         <div class="product-info text-left">
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
            {{ $product->product_name }}</a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
 
 @if ($product->discount_price == NULL)
-<div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>   </div>
+<div class="product-price"> <span class="price"> INR {{ $product->selling_price }} </span>   </div>
 
 @else
 
-<div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+<div class="product-price"> <span class="price"> INR {{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
 @endif
 
 
@@ -476,13 +413,11 @@ Shop Page
           <div class="product-info">
             <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en ) }}">
             	{{ $product->product_name }} </a></h3>
-            <div class="rating rateit-small"></div>
-
 
             @if ($product->discount_price == NULL)
-            <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+            <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
             @else
-<div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+<div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
             @endif
             
             <!-- /.product-price -->
@@ -619,7 +554,9 @@ Shop Page
 <!-- /.body-content --> 
 
 
-
+<form action="" method="GET" id="sort_form">
+  <input type="hidden" name="sort" value="" id="sort">
+</form>
  
 
 

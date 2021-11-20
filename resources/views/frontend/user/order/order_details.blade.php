@@ -250,7 +250,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 
 
       @if($order)
-      <form action="{{ route('return.order',$order->id) }}" method="post">
+      <form action="{{ route('user.return.order',$order->id) }}" method="POST">
         @csrf
 
   <div class="form-group">

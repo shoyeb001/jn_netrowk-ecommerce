@@ -131,8 +131,8 @@
         <td align="center">{{ $item->color }}</td>
         <td align="center">{{ $item->product->product_code }}</td>
         <td align="center">{{ $item->qty }}</td>
-        <td align="center">${{ $item->price }}</td>
-        <td align="center">${{ $item->price * $item->qty }} </td>
+        <td align="center">INR {{ $item->price }}</td>
+        <td align="center">INR {{ $item->price * $item->qty }} </td>
       </tr>
       @endforeach
       
@@ -142,8 +142,8 @@
   <table width="100%" style=" padding:0 10px 0 10px;">
     <tr>
         <td align="right" >
-            <h2><span style="color: green;">Subtotal:</span>${{ $order->amount }}</h2>
-            <h2><span style="color: green;">Total:</span> ${{ $order->amount }}</h2>
+            <h2><span style="color: green;">Subtotal:</span>INR {{ $order->amount }}</h2>
+            <h2><span style="color: green;">Total:</span> INR {{ $order->amount }}</h2>
             {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
         </td>
     </tr>

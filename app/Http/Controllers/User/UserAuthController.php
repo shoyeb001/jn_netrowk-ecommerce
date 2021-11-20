@@ -5,8 +5,11 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+
 use Illuminate\Support\Facades\DB;
-use Mail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPassword;
+
 
 class UserAuthController extends Controller
 {
@@ -98,6 +101,10 @@ class UserAuthController extends Controller
             return redirect(route("auth.login"));
         }else {
             $request->session()->put("USER_ID", $data[0]->id);
+            if ($request->input("remember")!=NULL) {
+                setcookie('user_email',$email,time()+60*60*24*30);
+                setcookie('user_password',$password,time()+60*60*24*30);
+            }
             return redirect(url("/"));
         }
     }
@@ -106,4 +113,54 @@ class UserAuthController extends Controller
         $request->session()->forget("USER_ID");
         return redirect(url("/"));
     }
+
+    public function UserForgotPassword(){
+        return view("auth.user_forgot_password");
+    }
+
+    public function MailResetPassword(Request $request){
+        $request->validate([
+            "email" => "required"
+        ]);
+
+        $email = $request->input("email");
+
+       $data =  DB::table("users")->where("email",$email)->get()->count();
+
+       if ($data==0) {
+        $notification = array(
+			'message' => 'We could not found this email',
+			'alert-type' => 'error'
+		);
+
+		return redirect()->route('user.forgot.password')->with($notification);
+       }else {
+
+        $user = User::where("email",$email)->get();
+        $password = uniqid();
+        $newpassword = array(
+            "password"=>$password
+        );
+        User::where("email",$email)->update($newpassword);
+
+        $data = [
+            "name"=> $user[0]->name,
+            "email"=> $user[0]->email,
+            "body" => "your new password is $password. Please login with this password and change it from user profile section.",
+
+        ];
+
+        Mail::to($email)->send(new ResetPassword($data));
+
+        $notification = array(
+			'message' => 'Password reset successfully. Check your email.',
+			'alert-type' => 'success'
+		);
+
+		return redirect()->route('auth.login')->with($notification);
+       }
+
+    }
+
+ 
 }

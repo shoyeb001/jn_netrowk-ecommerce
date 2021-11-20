@@ -239,13 +239,12 @@ Sub - Subcategory Product
                 <div class="lbl-cnt"> <span class="lbl">Sort by</span>
                   <div class="fld inline">
                     <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
-                      <button data-toggle="dropdown" type="button" class="btn dropdown-toggle"> Position <span class="caret"></span> </button>
-                      <ul role="menu" class="dropdown-menu">
-                        <li role="presentation"><a href="#">position</a></li>
-                        <li role="presentation"><a href="#">Price:Lowest first</a></li>
-                        <li role="presentation"><a href="#">Price:HIghest first</a></li>
-                        <li role="presentation"><a href="#">Product Name:A to Z</a></li>
-                      </ul>
+                      <select class="fld inline" onchange="SortBy()" id="sort_by">
+                        <option value="default">Default</option>
+                        <option value="price_lowest">Price:Lowest</option>
+                        <option value="price_higest">Price:Higest</option>
+                        <option value="product_name_asc">Product Name: A to Z</option>
+                      </select>
                     </div>
                   </div>
                   <!-- /.fld --> 
@@ -414,8 +413,8 @@ Sub - Subcategory Product
         <!-- /.col -->
         <div class="col col-sm-8 col-lg-8">
           <div class="product-info">
-            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en ) }}">
-            {{ $product->product_name_en }} </a></h3>
+            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
+            {{ $product->product_name}} </a></h3>
             <div class="rating rateit-small"></div>
 
 
@@ -560,6 +559,9 @@ Sub - Subcategory Product
 
 
 
+<form action="" method="GET" id="sort_form">
+  <input type="hidden" name="sort" value="" id="sort">
+</form>
  
 
 

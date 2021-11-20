@@ -20,24 +20,35 @@ Home Easy Online Shop
 			<div class="row">
 				<!-- Sign-in -->			
 <div class="col-md-6 col-sm-6 sign-in">
+	@php 
+	if (isset($_COOKIE['user_email']) && isset($_COOKIE['user_password'])) {
+	 $email = $_COOKIE['user_email'];
+	 $password = $_COOKIE['user_password'];
+	}else {
+	 $email = "";
+	 $password="";
+	}
+	@endphp
 	<h4 class="">Sign in</h4>
 	<p class="" style="color: red">{{session('login_msg')}}</p>
 	
 	<form class="register-form outer-top-xs" action="{{route("user.login.auth")}}" method="POST">
 		<div class="form-group">
+		
 		    <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-		    <input type="email" name="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1" >
+		    <input type="email" name="email" class="form-control  text-input" id="exampleInputEmail1" value="{{$email}}">
 			@csrf
 		</div>
 	  	<div class="form-group">
 		    <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
-		    <input type="password" class="form-control unicase-form-control text-input" id="exampleInputPassword1" name="password">
+		    <input type="password" value="{{$password}}" class="form-control unicase-form-control text-input" id="exampleInputPassword1" name="password">
 		</div>
 		<div class="radio outer-xs">
-		  	<label>
-		    	<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Remember me!
+		  	<label>	
+					<input type="checkbox" name="remember" id="basic_checkbox_1" >
+					<label for="basic_checkbox_1">Remember Me</label>
 		  	</label>
-		  	<a href="#" class="forgot-password pull-right">Forgot your Password?</a>
+		  	<a href="{{route("user.forgot.password")}}" class="forgot-password pull-right">Forgot your Password?</a>
 		</div>
 	  	<button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
 	</form>					

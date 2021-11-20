@@ -7,6 +7,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use PDF;
 use App\Models\OrderItem;
+use Carbon\Carbon;
+
 
 class AllUserController extends Controller
 {
@@ -33,5 +35,56 @@ class AllUserController extends Controller
             'chroot' => public_path(),
         ]);
         return $pdf->download('invoice.pdf');
+    }
+
+    public function ReturnOrder(Request $request, $order_id)
+    {
+        Order::where("id",$order_id)->update([
+            'return_date' => Carbon::now()->format('d F Y'),
+            'return_reason' => $request->return_reason,
+            'return_order' => 1,
+        ]);
+
+
+        $notification = array(
+            'message' => 'Return Request Send Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('user.myorder')->with($notification);
+    }
+
+    public function ReturnOrderList()
+    {
+        $orders = Order::where('user_id', session("USER_ID"))->where('return_reason', '!=', NULL)->orderBy('id', 'DESC')->get();
+        return view('frontend.user.order.return_order_view', compact('orders'));
+    }
+
+    public function OrderTracking(Request $request)
+    {
+        $invoice = $request->code;
+
+        $track = Order::where('invoice_no', $invoice)->first();
+
+        if ($track) {
+
+            // echo "<pre>";
+            // print_r($track);
+
+            return view('frontend.tracking.track_order', compact('track'));
+        } else {
+
+            $notification = array(
+                'message' => 'Invoice Code Is Invalid',
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    public function CancelOrders(){
+        $orders = Order::where('user_id',session("USER_ID"))->where('status','cancel')->orderBy('id','DESC')->get();
+        return view('frontend.user.order.cancel_order_view',compact('orders'));
     }
 }

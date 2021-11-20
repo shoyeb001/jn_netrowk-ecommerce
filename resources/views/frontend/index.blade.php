@@ -53,8 +53,7 @@ Home Easy Online Shop
         <div class="col col-xs-7">
           <div class="product-info">
             <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}"> {{ $product->product_name }} </a></h3>
-            <div class="rating rateit-small"></div>
- <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span> </div>
+ <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span> </div>
             <!-- /.product-price --> 
             
           </div>
@@ -127,8 +126,7 @@ Home Easy Online Shop
             <div class="col col-xs-7">
               <div class="product-info">
                 <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}">{{ $product->product_name }}</a></h3>
-                <div class="rating rateit-small"></div>
-                <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span> </div>
+                <div class="product-price"> <span class="price"> INR {{ $product->selling_price }} </span> </div>
                 <!-- /.product-price --> 
                 
               </div>
@@ -334,13 +332,12 @@ Home Easy Online Shop
         <div class="product-info text-left">
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}"> {{ $product->product_name }}
             </a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
          @if ($product->discount_price == NULL)
-    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+    <div class="product-price"> <span class="price"> INR {{ $product->selling_price }} </span>  </div>
          @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR {{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
          @endif
 
          
@@ -429,13 +426,12 @@ Home Easy Online Shop
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
  {{ $product->product_name }} 
             </a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
          @if ($product->discount_price == NULL)
-    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+    <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
          @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
          @endif
 
          
@@ -559,13 +555,12 @@ Home Easy Online Shop
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
  {{ $product->product_name }} 
             </a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
          @if ($product->discount_price == NULL)
-    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+    <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
          @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
          @endif
 
          
@@ -652,13 +647,12 @@ Home Easy Online Shop
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
  {{ $product->product_name }}
             </a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
          @if ($product->discount_price == NULL)
-    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+    <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
          @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
          @endif
 
          
@@ -748,13 +742,12 @@ Home Easy Online Shop
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
  {{ $product->product_name }}
             </a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
          @if ($product->discount_price == NULL)
-    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+    <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
          @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
          @endif
 
          
@@ -883,13 +876,12 @@ Home Easy Online Shop
           <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
  {{ $product->product_name }}
             </a></h3>
-          <div class="rating rateit-small"></div>
           <div class="description"></div>
 
          @if ($product->discount_price == NULL)
-    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+    <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
          @else
- <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+ <div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
          @endif
 
          

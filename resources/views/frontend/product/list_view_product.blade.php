@@ -12,18 +12,18 @@
         <!-- /.col -->
         <div class="col col-sm-8 col-lg-8">
           <div class="product-info">
-            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en ) }}">
-            	 {{ $product->product_name_en }} </a></h3>
+            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug ) }}">
+            	 {{ $product->product_name }} </a></h3>
 
             @if ($product->discount_price == NULL)
-            <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span>  </div>
+            <div class="product-price"> <span class="price"> INR{{ $product->selling_price }} </span>  </div>
             @else
-<div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->selling_price }}</span> </div>
+<div class="product-price"> <span class="price"> INR{{ $product->discount_price }} </span> <span class="price-before-discount">INR {{ $product->selling_price }}</span> </div>
             @endif
             
             <!-- /.product-price -->
             <div class="description m-t-10">
-            	 {{ $product->short_descp_en }} </div>
+            	 {{ $product->short_descp }} </div>
             <div class="cart clearfix animate-effect">
               <div class="action">
                 <ul class="list-unstyled">

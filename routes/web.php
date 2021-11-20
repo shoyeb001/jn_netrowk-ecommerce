@@ -4,10 +4,12 @@ use App\Http\Controllers\AdminController;
 use Facade\FlareClient\View;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\AdminUserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ReturnController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -20,6 +22,8 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\WishlistController;
+use App\Http\Controllers\User\CashController;
+use App\Http\Middleware\UserAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +48,8 @@ Route::post("admin/auth", [AdminController::class, 'AdminLogin'])->name("admin.l
 
 Route::group(['middleware' => ['adminauth']], function () {       //admin routes
 
+    Route::get('/admin/logout',[AdminController::class,'logout'])->name('admin.logout');
+
 
     Route::get("/admin/dashboard", [AdminProfileController::class, 'AdminDashboard'])->name('admin.dashboard');
 
@@ -51,7 +57,13 @@ Route::group(['middleware' => ['adminauth']], function () {       //admin routes
 
     Route::get('/admin/profile/edit', [AdminProfileController::class, 'AdminProfileEdit'])->name('admin.profile.edit');
 
+    Route::post('/admin/profile/update',[AdminProfileController::class,'AdminProfileUpdate'])->name("admin.profile.update");
+
     Route::get('/admin/change/password', [AdminProfileController::class, 'AdminChangePassword'])->name('admin.change.password');
+
+    Route::post("admin/password/update",[AdminProfileController::class,'UpdatePassword'])->name("admin.password.update");
+
+
 
     //backend category routes
 
@@ -170,14 +182,50 @@ Route::group(['middleware' => ['adminauth']], function () {       //admin routes
 
     Route::get('/orders/processing/confirm/{order_id}',[OrderController::class,'ConfirmToProcessing'])->name("confirm.processing");
 
-    Route::get('/order/processing/picked/{order_id}',[OrderController::class,'ProcessingToPicked'])->name("processing.picked");
+    Route::get('/orders/processing/picked/{order_id}',[OrderController::class,'ProcessingToPicked'])->name("processing.picked");
 
-    Route::get('/order/processing/shipped/{order_id}',[OrderController::class,'PickedToShipped'])->name('picked.shipped');
+    Route::get('/orders/processing/shipped/{order_id}',[OrderController::class,'PickedToShipped'])->name('picked.shipped');
 
-    Route::get('/order/shipped/delivered/{order_id}',[OrderController::class,'ShippedToDelivered'])->name("shipped.delivered");
+    Route::get('/orders/shipped/delivered/{order_id}',[OrderController::class,'ShippedToDelivered'])->name("shipped.delivered");
+
+    Route::get('/orders/confirmed/orders',[OrderController::class,'ConfirmedOrder'])->name("confirmed.order");
+
+    Route::get('orders/processing/orders', [OrderController::class, 'ProcessingOrders'])->name('processing.orders');
+
+    Route::get('orders/invoice/download/{order_id}', [OrderController::class, 'AdminInvoiceDownload'])->name('invoice.download');
+
+    Route::get('orders/picked/orders', [OrderController::class, 'PickedOrders'])->name('picked.orders');
+
+    Route::get('orders/shipped/orders', [OrderController::class, 'ShippedOrders'])->name('shipped.orders');
+
+    Route::get('orders/delivered/orders', [OrderController::class, 'DeliveredOrders'])->name('delivered.orders');
+
+    Route::get('orders/cancel/orders', [OrderController::class, 'CancelOrders'])->name('cancel.orders');
+
+    //admin user roles routes
+
+    Route::get('adminuserrole/all',[AdminUserController::class,'AllAdminRole'])->name("all.admin.user");
+
+    Route::get("adminuserrole/add",[AdminUserController::class,'AddAdminRole'])->name("add.admin.user");
+
+    Route::post("adminuserrole/store",[AdminUserController::class,'StoreAdminRole'])->name("store.admin.user");
+
+    Route::get("adminuserrole/edit/{id}",[AdminUserController::class,'EditAdminRole'])->name("edit.admin.user");
+
+    Route::post("adminuserrole/update",[AdminUserController::class,'UpdateAdminRole'])->name("update.admin.user");
 
 
+    //admin return 
 
+    Route::get("return/admin/request",[ReturnController::class,'ReturnRequest'])->name("return.request");
+
+    Route::get("return/admin/approve/{order_id}",[ReturnController::class,'ReturnApprove'])->name("return.approve");
+
+    Route::get("return/admin/all/request",[ReturnController::class,'ReturnAll'])->name("return.all");
+
+   //admin get all users
+
+   Route::get("alluser/view",[AdminProfileController::class,'GetAllUsers'])->name("get.all.users");
     
 }); //guard ends
 
@@ -193,6 +241,8 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('auth.login');
 
+Route::get("user/logout",[UserAuthController::class,"UserLogOut"])->name("user.logout");
+
 Route::get('/forgot-password', function () {
     return view('auth.forgot_password');
 })->name('auth.forgot_password');
@@ -204,6 +254,11 @@ Route::post("/register", [UserAuthController::class, "UserRegister"])->name("use
 Route::post("/user/login/auth", [UserAuthController::class, "UserLoginAuth"])->name("user.login.auth");
 
 Route::get("/user/logout", [UserAuthController::class, "UserLogout"])->name("user.logout");
+
+Route::get("/user/forgot-password",[UserAuthController::class,"UserForgotPassword"])->name("user.forgot.password");
+
+Route::post("/user/email/password/reset",[UserAuthController::class,"MailResetPassword"])->name("password.email");
+
 
 //product routes
 
@@ -256,6 +311,7 @@ Route::group(['middleware' => ['userauth']], function () {
 
     Route::post('/user/stripe/order', [StripeController::class, 'StripeOrder'])->name("stripe.order");
 
+    Route::post('user/cash/order', [CashController::class, 'CashOrder'])->name('cash.order');
     //wishlist controller
 
     Route::get('user/wishlist', [WishlistController::class, 'ViewWishlist'])->name('wishlist');
@@ -282,7 +338,21 @@ Route::group(['middleware' => ['userauth']], function () {
 
    Route::get("/user/invoice_download/{id}",[AllUserController::class,"InvoiceDownload"]);
 
+   Route::post("/user/return/order/{order_id}",[AllUserController::class,"ReturnOrder"])->name("user.return.order");
+
+   Route::get('/user/return/order/list', [AllUserController::class, 'ReturnOrderList'])->name('return.order.list');
+
+
+
+   Route::get('/user/cancel/orders',[AllUserController::class,'CancelOrders'])->name("user.cancel.orders");
+
+
 });
+
+   //user order tracking
+   
+Route::post('/order/tracking', [AllUserController::class, 'OrderTracking'])->name('order.tracking');    
+
 
 //shop page
 
@@ -292,4 +362,6 @@ Route::get("/shop",[ShopPageController::class,"ShopPage"])->name("shoppage");
 
 Route::post("/search",[IndexController::class,"SearchProduct"])->name("product.search");
 
+//advance search
 
+Route::post("/search-product",[IndexController::class,"ProductSearch"])->name("search.product");
